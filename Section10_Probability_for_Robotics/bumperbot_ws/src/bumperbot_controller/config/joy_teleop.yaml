@@ -1,0 +1,16 @@
+joy_teleop:
+  ros__parameters:
+    move:
+      type: topic
+      interface_type: geometry_msgs/msg/TwistStamped
+      topic_name: bumperbot_controller/cmd_vel
+      deadman_buttons: [5]
+      axis_mappings:
+        twist-linear-x:
+          axis: 1
+          scale: 1.0
+          offset: 0.0
+        twist-angular-z:
+          axis: 3
+          scale: 1.0
+          offset: 0.0
