@@ -2,44 +2,44 @@
 
 <robot name="bumperbot" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <!-- Wheels -->
-    <gazebo reference="wheel_left_link">
-      <mu1>1000000000000000.0</mu1>
-      <mu2>1000000000000000.0</mu2>
-      <kp>1000000000000.0</kp>
-      <kd>10.0</kd>
-      <minDepth>0.001</minDepth>
-      <maxVel>0.1</maxVel>
-      <fdir1>1 0 0</fdir1>
-    </gazebo>
-
-    <gazebo reference="wheel_right_link">
-      <mu1>1000000000000000.0</mu1>
-      <mu2>1000000000000000.0</mu2>
-      <kp>1000000000000.0</kp>
-      <kd>10.0</kd>
-      <minDepth>0.001</minDepth>
-      <maxVel>0.1</maxVel>
-      <fdir1>1 0 0</fdir1>
-    </gazebo>
-    
-    <!-- Caster Wheels -->
-    <gazebo reference="caster_rear_link">
-      <mu1>0.1</mu1>
-      <mu2>0.1</mu2>
-      <kp>1000000.0</kp>
-      <kd>100.0</kd>
-      <minDepth>0.001</minDepth>
-      <maxVel>1.0</maxVel>
-    </gazebo>
-    
-    <gazebo reference="caster_front_link">
-      <mu1>0.1</mu1>
-      <mu2>0.1</mu2>
-      <kp>1000000.0</kp>
-      <kd>100.0</kd>
-      <minDepth>0.001</minDepth>
-      <maxVel>1.0</maxVel>
-    </gazebo>
+  <!-- Wheels -->
+  <gazebo reference="wheel_left_link">
+    <mu1>1000000000000000.0</mu1>
+    <mu2>1000000000000000.0</mu2>
+    <kp>1000000000000.0</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+    <fdir1>1 0 0</fdir1>
+  </gazebo>
+  
+  <gazebo reference="wheel_right_link">
+    <mu1>1000000000000000.0</mu1>
+    <mu2>1000000000000000.0</mu2>
+    <kp>1000000000000.0</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+    <fdir1>1 0 0</fdir1>
+  </gazebo>
+  
+  <!-- Caster Wheels -->
+  <gazebo reference="caster_rear_link">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+  </gazebo>
+  
+  <gazebo reference="caster_front_link">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+  </gazebo>
 
 </robot>
