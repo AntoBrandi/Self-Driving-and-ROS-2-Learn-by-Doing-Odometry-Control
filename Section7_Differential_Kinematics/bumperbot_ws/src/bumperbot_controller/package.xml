@@ -13,13 +13,8 @@
   <depend>rclpy</depend>
   <depend>geometry_msgs</depend>
   <depend>std_msgs</depend>
-  <depend>sensor_msgs</depend>
-  <depend>nav_msgs</depend>
-  <depend>tf2_ros</depend>
-  <depend>tf2</depend>
   <depend>eigen</depend>
   
-  <exec_depend>tf_transformations</exec_depend>
   <exec_depend>ros2launch</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>xacro</exec_depend>
