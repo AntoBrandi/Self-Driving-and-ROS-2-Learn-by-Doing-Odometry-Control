@@ -54,10 +54,10 @@ Some of the concepts that are covered in this course are
 
 * Gazebo Simulation
 * Robot Kinematics
-* ROS Basics
-* MoveIt!
-* Using Arduino with ROS
-* Interface Alexa with ROS
+* ROS 2 Basics
+* MoveIt 2
+* Using Arduino with ROS 2
+* Interface Alexa with ROS 2
 
 Looks funny? Check it out on the following platforms:
 * [Udemy](https://www.udemy.com/course/robotics-and-ros-2-learn-by-doing-manipulators/?referralCode=4B27D2CF97C1E099DD4C)
