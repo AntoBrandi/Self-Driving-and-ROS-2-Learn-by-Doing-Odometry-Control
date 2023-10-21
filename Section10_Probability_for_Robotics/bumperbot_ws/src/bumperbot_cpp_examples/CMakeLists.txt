@@ -8,6 +8,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(rcl_interfaces REQUIRED)
 find_package(turtlesim REQUIRED)
 find_package(bumperbot_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -21,6 +22,9 @@ ament_target_dependencies(simple_publisher rclcpp std_msgs)
 
 add_executable(simple_subscriber src/simple_subscriber.cpp)
 ament_target_dependencies(simple_subscriber rclcpp std_msgs)
+
+add_executable(simple_parameter src/simple_parameter.cpp)
+ament_target_dependencies(simple_parameter rclcpp rcl_interfaces)
 
 add_executable(simple_turtlesim_kinematics src/simple_turtlesim_kinematics.cpp)
 ament_target_dependencies(simple_turtlesim_kinematics rclcpp turtlesim)
@@ -42,6 +46,7 @@ install(
 install(TARGETS
   simple_publisher
   simple_subscriber
+  simple_parameter
   simple_turtlesim_kinematics
   simple_service_server
   simple_service_client

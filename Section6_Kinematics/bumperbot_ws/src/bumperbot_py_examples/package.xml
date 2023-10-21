@@ -9,6 +9,7 @@
 
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
+  <depend>rcl_interfaces</depend>
   <depend>turtlesim</depend>
 
   <test_depend>ament_copyright</test_depend>
