@@ -1,0 +1,135 @@
+ekf_filter_node:
+    ros__parameters:
+      # The frequency, in Hz, at which the filter will output a position estimate. Note that the filter will not begin
+      # computation until it receives at least one message from one of the inputs. It will then run continuously at the
+      # frequency specified here, regardless of whether it receives more measurements. Defaults to 30 if unspecified.
+      frequency: 30.0
+
+      # ekf_localization_node and ukf_localization_node both use a 3D omnidirectional motion model. If this parameter is
+      # set to true, no 3D information will be used in your state estimate. Use this if you are operating in a planar
+      # environment and want to ignore the effect of small variations in the ground plane that might otherwise be detected
+      # by, for example, an IMU. Defaults to false if unspecified.
+      two_d_mode: true
+
+      # Whether to broadcast the transformation over the /tf topic. Defaults to true if unspecified.
+      publish_tf: true
+
+      # REP-105 (http://www.ros.org/reps/rep-0105.html) specifies four principal coordinate frames: base_link, odom, map, and
+      # earth. base_link is the coordinate frame that is affixed to the robot. Both odom and map are world-fixed frames.
+      # The robot's position in the odom frame will drift over time, but is accurate in the short term and should be
+      # continuous. The odom frame is therefore the best frame for executing local motion plans. The map frame, like the odom
+      # frame, is a world-fixed coordinate frame, and while it contains the most globally accurate position estimate for your
+      # robot, it is subject to discrete jumps, e.g., due to the fusion of GPS data or a correction from a map-based
+      # localization node. The earth frame is used to relate multiple map frames by giving them a common reference frame.
+      # ekf_localization_node and ukf_localization_node are not concerned with the earth frame.
+      # Here is how to use the following settings:
+      # 1. Set the map_frame, odom_frame, and base_link frames to the appropriate frame names for your system.
+      #     1a. If your system does not have a map_frame, just remove it, and make sure "world_frame" is set to the value of
+      #         odom_frame.
+      # 2. If you are fusing continuous position data such as wheel encoder odometry, visual odometry, or IMU data, set
+      #   "world_frame" to your odom_frame value. This is the default behavior for robot_localization's state estimation nodes.
+      # 3. If you are fusing global absolute position data that is subject to discrete jumps (e.g., GPS or position updates
+      # from landmark observations) then:
+      #     3a. Set your "world_frame" to your map_frame value
+      #     3b. MAKE SURE something else is generating the odom->base_link transform. Note that this can even be another state
+      #         estimation node from robot_localization! However, that instance should *not* fuse the global data.
+      map_frame: map              # Defaults to "map" if unspecified
+      odom_frame: odom            # Defaults to "odom" if unspecified
+      base_link_frame: base_footprint_ekf  # Defaults to "base_link" if unspecified
+      world_frame: odom           # Defaults to the value of odom_frame if unspecified
+
+      
+
+      # IMU Configuration
+      imu0: imu_ekf
+      # Each sensor reading updates some or all of the filter's state. These options give you greater control over which
+      # values from each measurement are fed to the filter. For example, if you have an odometry message as input, but only
+      # want to use its Z position value, then set the entire vector to false, except for the third entry. The order of the
+      # values is x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az. Note that not some message types
+      # do not provide some of the state variables estimated by the filter. For example, a TwistWithCovarianceStamped message
+      # has no pose information, so the first six values would be meaningless in that case. Each vector defaults to all false
+      # if unspecified, effectively making this parameter required for each sensor.
+      imu0_config: [false, false, false,
+                    false, false, true,
+                    false, false, false,
+                    false, false, true,
+                    true,  false, false]
+
+      imu0_differential: true
+      imu0_pose_use_child_frame: false
+
+      # The filter accepts an arbitrary number of inputs from each input message type (nav_msgs/Odometry,
+      # geometry_msgs/PoseWithCovarianceStamped, geometry_msgs/TwistWithCovarianceStamped,
+      # sensor_msgs/Imu). To add an input, simply append the next number in the sequence to its "base" name, e.g., odom0,
+      # odom1, twist0, twist1, imu0, imu1, imu2, etc. The value should be the topic name. These parameters obviously have no
+      # default values, and must be specified.
+      odom0: bumperbot_controller/odom_noisy
+
+      # Each sensor reading updates some or all of the filter's state. These options give you greater control over which
+      # values from each measurement are fed to the filter. For example, if you have an odometry message as input, but only
+      # want to use its Z position value, then set the entire vector to false, except for the third entry. The order of the
+      # values is x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az. Note that not some message types
+      # do not provide some of the state variables estimated by the filter. For example, a TwistWithCovarianceStamped message
+      # has no pose information, so the first six values would be meaningless in that case. Each vector defaults to all false
+      # if unspecified, effectively making this parameter required for each sensor.
+      odom0_config: [false, false, false,
+                     false, false, false,
+                     true,  true,  false,
+                     false, false, false,
+                     false, false, false]
+
+      # [ADVANCED] When measuring one pose variable with two sensors, a situation can arise in which both sensors under-
+      # report their covariances. This can lead to the filter rapidly jumping back and forth between each measurement as they
+      # arrive. In these cases, it often makes sense to (a) correct the measurement covariances, or (b) if velocity is also
+      # measured by one of the sensors, let one sensor measure pose, and the other velocity. However, doing (a) or (b) isn't
+      # always feasible, and so we expose the differential parameter. When differential mode is enabled, all absolute pose
+      # data is converted to velocity data by differentiating the absolute pose measurements. These velocities are then
+      # integrated as usual. NOTE: this only applies to sensors that provide pose measurements; setting differential to true
+      # for twist measurements has no effect.
+      odom0_differential: true
+      odom0_pose_use_child_frame: false
+
+      # [ADVANCED] The process noise covariance matrix can be difficult to tune, and can vary for each application, so it is
+      # exposed as a configuration parameter. This matrix represents the noise we add to the total error after each
+      # prediction step. The better the omnidirectional motion model matches your system, the smaller these values can be.
+      # However, if users find that a given variable is slow to converge, one approach is to increase the
+      # process_noise_covariance diagonal value for the variable in question, which will cause the filter's predicted error
+      # to be larger, which will cause the filter to trust the incoming measurement more during correction. The values are
+      # ordered as x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az. Defaults to the matrix below if
+      # unspecified.
+      process_noise_covariance: [0.05,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.05,   0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.06,   0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.03,   0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.03,   0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.06,   0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.025,   0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.025,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.04,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.01,   0.0,    0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.01,   0.0,    0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.02,   0.0,    0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.01,   0.0,    0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.01,   0.0,
+                                 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.015]
+
+      # [ADVANCED] This represents the initial value for the state estimate error covariance matrix. Setting a diagonal
+      # value (variance) to a large value will result in rapid convergence for initial measurements of the variable in
+      # question. Users should take care not to use large values for variables that will not be measured directly. The values
+      # are ordered as x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az. Defaults to the matrix below
+      #if unspecified.
+      initial_estimate_covariance: [1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,    0.0,     0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     1e-9,    0.0,     0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     1e-9,    0.0,    0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     1e-9,   0.0,    0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    1e-9,   0.0,
+                                    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    1e-9]

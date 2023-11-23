@@ -1,0 +1,10 @@
+<library path="bumperbot_firmware">
+    <class name="bumperbot_firmware/BumperbotInterface"
+      type="bumperbot_firmware::BumperbotInterface"
+      base_class_type="hardware_interface::SystemInterface"
+    >
+      <description>
+        Bumperbot Hardware Interface
+      </description>
+    </class>
+  </library>
