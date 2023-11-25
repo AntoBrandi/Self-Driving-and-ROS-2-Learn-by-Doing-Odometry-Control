@@ -8,8 +8,6 @@
 
 unsigned int encoder_counter = 0;
 String encoder_sign = "p";
-unsigned long last_millis = 0;
-const unsigned long interval = 100;
 double wheel_meas_vel = 0.0;    // rad/s
 
 void setup() {
@@ -29,18 +27,12 @@ void setup() {
 }
 
 void loop() {
-  unsigned long current_millis = millis();
-  if(current_millis - last_millis >= interval)
-  {
-    wheel_meas_vel = (10 * encoder_counter * (60.0/385.0)) * 0.10472;
-
-    String encoder_read = "r" + encoder_sign + String(wheel_meas_vel);
-    Serial.println(encoder_read);
-    last_millis = current_millis;
-    encoder_counter = 0;
-
-    analogWrite(L298N_enA, 100);
-  }
+  wheel_meas_vel = (10 * encoder_counter * (60.0/385.0)) * 0.10472;
+  String encoder_read = encoder_sign + String(wheel_meas_vel);
+  Serial.println(encoder_read);
+  encoder_counter = 0;
+  analogWrite(L298N_enA, 100);
+  delay(100);
 }
 
 void encoderCallback()
