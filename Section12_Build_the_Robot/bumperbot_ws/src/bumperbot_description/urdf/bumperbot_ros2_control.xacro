@@ -4,9 +4,19 @@
     <ros2_control name="RobotSystem" type="system">
 
         <!-- ros2_control Gazebo -->
-        <hardware>
-            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-        </hardware>
+        <xacro:if value="$(arg is_sim)">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+        </xacro:if>
+
+        <!-- ros2_control Real Robot -->
+        <xacro:unless value="$(arg is_sim)">
+            <hardware>
+                <plugin>bumperbot_firmware/BumperbotInterface</plugin>
+                <param name="port">/dev/ttyUSB0</param>
+            </hardware>
+        </xacro:unless>
         
         <!-- ros2_control Common Interfaces -->
         <joint name="wheel_right_joint">
