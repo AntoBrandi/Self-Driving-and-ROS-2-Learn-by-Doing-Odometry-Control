@@ -3,7 +3,7 @@
 #define L298N_in2 13  // Dir Motor A
 #define L298N_in1 12  // Dir Motor A
 
-int cmd = 0;
+float cmd = 0;
 
 void setup() {
   // Set pin modes
@@ -21,7 +21,7 @@ void setup() {
 void loop() {
   if (Serial.available())
   {
-    cmd = Serial.readString().toDouble();
+    cmd = Serial.readString().toFloat();
   }
   analogWrite(L298N_enA, cmd*100);
 }
