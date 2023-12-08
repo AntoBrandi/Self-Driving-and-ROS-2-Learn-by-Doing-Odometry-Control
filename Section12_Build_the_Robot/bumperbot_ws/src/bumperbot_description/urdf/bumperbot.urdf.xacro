@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <robot name="bumperbot" xmlns:xacro="http://ros.org/wiki/xacro">
-  
+
   <!-- Load Simulated or Real Hardware Interfaces -->
   <xacro:arg name="is_sim" default="true"/>
 

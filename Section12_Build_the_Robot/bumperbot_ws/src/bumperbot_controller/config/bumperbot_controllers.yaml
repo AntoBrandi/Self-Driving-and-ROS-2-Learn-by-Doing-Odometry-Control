@@ -1,7 +1,6 @@
 controller_manager:
   ros__parameters:
     update_rate: 100 # Hz
-    use_sim_time: true
 
     bumperbot_controller:
       type: diff_drive_controller/DiffDriveController
@@ -51,19 +50,21 @@ bumperbot_controller:
     linear:
       x:
         has_velocity_limits    : true
-        max_velocity           : 1.0  # m/s
-        min_velocity           : -0.5 # m/s
+        max_velocity           : 0.7  # m/s
+        min_velocity           : -0.7 # m/s
         has_acceleration_limits: true
-        max_acceleration       : 0.8  # m/s^2
-        min_acceleration       : -0.4 # m/s^2
+        max_acceleration       : 0.7  # m/s^2
+        min_acceleration       : -0.7 # m/s^2
         has_jerk_limits        : false
         max_jerk               : 5.0  # m/s^3
     angular:
       z:
         has_velocity_limits    : true
-        max_velocity           : 1.7  # rad/s
+        max_velocity           : 8.5  # rad/s
+        min_velocity           : -8.5  # rad/s
         has_acceleration_limits: true
-        max_acceleration       : 1.5  # rad/s^2
+        max_acceleration       : 5.0  # rad/s^2
+        min_acceleration       : -5.0   # rad/s^2
         has_jerk_limits        : false
         max_jerk               : 2.5  # rad/s^3
 
