@@ -14,6 +14,7 @@ find_package(bumperbot_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(rclcpp_lifecycle REQUIRED)
 
 include_directories(include)
 
@@ -38,6 +39,9 @@ ament_target_dependencies(simple_service_client rclcpp bumperbot_msgs)
 add_executable(simple_tf_kinematics src/simple_tf_kinematics.cpp)
 ament_target_dependencies(simple_tf_kinematics rclcpp bumperbot_msgs geometry_msgs tf2 tf2_ros)
 
+add_executable(simple_lifecycle_node src/simple_lifecycle_node.cpp)
+ament_target_dependencies(simple_lifecycle_node rclcpp rclcpp_lifecycle std_msgs)
+
 install(
   DIRECTORY include
   DESTINATION include
@@ -51,6 +55,7 @@ install(TARGETS
   simple_service_server
   simple_service_client
   simple_tf_kinematics
+  simple_lifecycle_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
