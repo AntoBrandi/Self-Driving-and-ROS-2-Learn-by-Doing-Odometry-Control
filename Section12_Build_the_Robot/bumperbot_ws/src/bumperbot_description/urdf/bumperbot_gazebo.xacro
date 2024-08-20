@@ -61,10 +61,10 @@
 
   <!-- ROS 2 Control -->
   <gazebo>
-    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <robot_param>robot_description</robot_param>
-      <robot_param_node>robot_state_publisher</robot_param_node>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find bumperbot_controller)/config/bumperbot_controllers.yaml</parameters>
+    </plugin>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
     </plugin>
   </gazebo>
 
@@ -73,6 +73,8 @@
     <sensor name="imu" type="imu">
         <always_on>true</always_on>
         <update_rate>100</update_rate>
+        <gz_frame_id>imu_link</gz_frame_id>
+        <topic>imu</topic>
         <imu>
           <angular_velocity>
             <x>
@@ -115,7 +117,6 @@
             </z>
           </linear_acceleration>
         </imu>
-        <plugin name="imu" filename="libgazebo_ros_imu_sensor.so"/>
     </sensor>
   </gazebo>
 
