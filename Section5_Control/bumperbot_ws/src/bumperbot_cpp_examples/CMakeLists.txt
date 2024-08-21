@@ -7,6 +7,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(rcl_interfaces REQUIRED)
 
 add_executable(simple_publisher src/simple_publisher.cpp)
