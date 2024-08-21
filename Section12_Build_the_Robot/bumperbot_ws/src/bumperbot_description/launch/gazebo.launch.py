@@ -14,12 +14,6 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     bumperbot_description = get_package_share_directory("bumperbot_description")
 
-    bridge_params = os.path.join(
-        get_package_share_directory("bumperbot_description"),
-        "params",
-        "bumperbot_gz_bridge.yaml"
-    )
-
     model_arg = DeclareLaunchArgument(name="model", default_value=os.path.join(
                                         bumperbot_description, "urdf", "bumperbot.urdf.xacro"
                                         ),
@@ -33,8 +27,17 @@ def generate_launch_description():
             ]
         )
     
-    robot_description = ParameterValue(Command(["xacro ", LaunchConfiguration("model")]),
-                                       value_type=str)
+    ros_distro = os.environ["ROS_DISTRO"]
+    is_ignition = "True" if ros_distro == "humble" else "False"
+    
+    robot_description = ParameterValue(Command([
+            "xacro ",
+            LaunchConfiguration("model"),
+            " is_ignition:=",
+            is_ignition
+        ]),
+        value_type=str
+    )
 
     robot_state_publisher_node = Node(
         package="robot_state_publisher",

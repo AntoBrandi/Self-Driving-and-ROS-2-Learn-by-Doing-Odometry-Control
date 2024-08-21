@@ -5,9 +5,19 @@
 
         <!-- ros2_control Gazebo -->
         <xacro:if value="$(arg is_sim)">
-            <hardware>
-                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-            </hardware>
+            <!-- ROS 2 Humble -->
+            <xacro:if value="$(arg is_ignition)">
+                <hardware>
+                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
+                </hardware>
+            </xacro:if>
+
+            <!-- ROS 2 Iron or above -->
+            <xacro:unless value="$(arg is_ignition)">
+                <hardware>
+                    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+                </hardware>
+            </xacro:unless>
         </xacro:if>
 
         <!-- ros2_control Real Robot -->
