@@ -2,6 +2,9 @@
 
 <robot name="bumperbot" xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!-- Start GZ or Ignition depending on ROS 2 Version -->
+  <xacro:arg name="is_ignition" default="true"/>
+
   <!-- Include Gazebo Parameters -->
   <xacro:include filename="$(find bumperbot_description)/urdf/bumperbot_gazebo.xacro" />
 
@@ -152,38 +155,6 @@
     <origin xyz="-0.04755 0 -0.0275" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="caster_rear_link" />
-    <axis xyz="0 0 0" />
-  </joint>
-
-  <link name="imu_link">
-    <inertial>
-      <origin xyz="-0.00552433659106688 0.000168210391520346 0.000514000497342681" rpy="0 0 0" />
-      <mass value="0.000528415362211671" />
-      <inertia ixx="1.46176048428261E-08" ixy="1.40015117949421E-10" ixz="-1.99633872937403E-12"
-               iyy="8.59662482954888E-09" iyz="7.52375112767959E-12"
-               izz="2.30279421279312E-08" />
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/imu_link.STL" />
-      </geometry>
-      <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="package://bumperbot_description/meshes/imu_link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  
-  <joint name="imu_joint" type="fixed">
-    <origin xyz="0 0 0.0698986241758014" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="imu_link" />
     <axis xyz="0 0 0" />
   </joint>
 

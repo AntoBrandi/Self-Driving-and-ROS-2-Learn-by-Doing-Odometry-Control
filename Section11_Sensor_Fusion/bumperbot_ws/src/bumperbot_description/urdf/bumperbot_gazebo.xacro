@@ -2,23 +2,6 @@
 
 <robot name="bumperbot" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <!-- Move this one to ros2 control -->
-  <transmission name="wheel_right_transmission">
-    <plugin>transmission_interface/SimpleTransmission</plugin>
-    <actuator name="wheel_right_motor" role="actuator_right"/>
-    <joint name="wheel_right_joint"    role="joint_right">
-      <mechanical_reduction>1.0</mechanical_reduction>
-    </joint>
-  </transmission>
-
-  <transmission name="wheel_left_transmission">
-    <plugin>transmission_interface/SimpleTransmission</plugin>
-    <actuator name="wheel_left_motor" role="actuator_left"/>
-    <joint name="wheel_left_joint"    role="joint_left">
-      <mechanical_reduction>1.0</mechanical_reduction>
-    </joint>
-  </transmission>
-
   <!-- Wheels -->
   <gazebo reference="wheel_left_link">
     <mu1>1000000000000000.0</mu1>
@@ -61,11 +44,23 @@
 
   <!-- ROS 2 Control -->
   <gazebo>
-    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <robot_param>robot_description</robot_param>
-      <robot_param_node>robot_state_publisher</robot_param_node>
-      <parameters>$(find bumperbot_controller)/config/bumperbot_controllers.yaml</parameters>
-    </plugin>
+    <!-- ROS 2 Humble -->
+    <xacro:if value="$(arg is_ignition)">
+      <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(find bumperbot_controller)/config/bumperbot_controllers.yaml</parameters>
+      </plugin>
+      <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
+      </plugin>
+    </xacro:if>
+
+    <!-- ROS 2 Iron or above -->
+    <xacro:unless value="$(arg is_ignition)">
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find bumperbot_controller)/config/bumperbot_controllers.yaml</parameters>
+      </plugin>
+      <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
+      </plugin>
+    </xacro:unless>
   </gazebo>
 
   <!-- IMU -->
@@ -73,6 +68,8 @@
     <sensor name="imu" type="imu">
         <always_on>true</always_on>
         <update_rate>100</update_rate>
+        <gz_frame_id>imu_link</gz_frame_id>
+        <topic>imu</topic>
         <imu>
           <angular_velocity>
             <x>
@@ -115,7 +112,6 @@
             </z>
           </linear_acceleration>
         </imu>
-        <plugin name="imu" filename="libgazebo_ros_imu_sensor.so"/>
     </sensor>
   </gazebo>
 
