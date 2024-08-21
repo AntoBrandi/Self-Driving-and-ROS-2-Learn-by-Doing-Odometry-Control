@@ -15,11 +15,12 @@
   <exec_depend>rviz2</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>ros2launch</exec_depend>
-  <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend condition="$ROS_DISTRO >= iron">gz_ros2_control</exec_depend>
   <exec_depend condition="$ROS_DISTRO == humble">ign_ros2_control</exec_depend>
   <exec_depend>bumperbot_controller</exec_depend>
   <exec_depend>bumperbot_firmware</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
