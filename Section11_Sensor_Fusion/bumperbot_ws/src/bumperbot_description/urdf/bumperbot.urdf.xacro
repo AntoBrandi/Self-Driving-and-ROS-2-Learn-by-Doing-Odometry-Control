@@ -5,9 +5,6 @@
   <!-- Start GZ or Ignition depending on ROS 2 Version -->
   <xacro:arg name="is_ignition" default="true"/>
 
-  <!-- Load Simulated or Real Hardware Interfaces -->
-  <xacro:arg name="is_sim" default="true"/>
-
   <!-- Include Gazebo Parameters -->
   <xacro:include filename="$(find bumperbot_description)/urdf/bumperbot_gazebo.xacro" />
 
