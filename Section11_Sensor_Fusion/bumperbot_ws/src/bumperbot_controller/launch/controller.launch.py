@@ -6,6 +6,7 @@ from launch.conditions import UnlessCondition, IfCondition
 
 
 def noisy_controller(context, *args, **kwargs):
+    use_sim_time = LaunchConfiguration("use_sim_time")
     use_python = LaunchConfiguration("use_python")
     wheel_radius = float(LaunchConfiguration("wheel_radius").perform(context))
     wheel_separation = float(LaunchConfiguration("wheel_separation").perform(context))
@@ -17,7 +18,8 @@ def noisy_controller(context, *args, **kwargs):
         executable="noisy_controller.py",
         parameters=[
             {"wheel_radius": wheel_radius + wheel_radius_error,
-             "wheel_separation": wheel_separation + wheel_separation_error}],
+             "wheel_separation": wheel_separation + wheel_separation_error,
+             "use_sim_time": use_sim_time}],
         condition=IfCondition(use_python),
     )
 
@@ -26,7 +28,8 @@ def noisy_controller(context, *args, **kwargs):
         executable="noisy_controller",
         parameters=[
             {"wheel_radius": wheel_radius + wheel_radius_error,
-             "wheel_separation": wheel_separation + wheel_separation_error}],
+             "wheel_separation": wheel_separation + wheel_separation_error,
+             "use_sim_time": use_sim_time}],
         condition=UnlessCondition(use_python),
     )
 
@@ -39,6 +42,10 @@ def noisy_controller(context, *args, **kwargs):
 
 def generate_launch_description():
     
+    use_sim_time_arg = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="True",
+    )
     use_simple_controller_arg = DeclareLaunchArgument(
         "use_simple_controller",
         default_value="True",
@@ -64,6 +71,7 @@ def generate_launch_description():
         default_value="0.02",
     )
     
+    use_sim_time = LaunchConfiguration("use_sim_time")
     use_simple_controller = LaunchConfiguration("use_simple_controller")
     use_python = LaunchConfiguration("use_python")
     wheel_radius = LaunchConfiguration("wheel_radius")
@@ -105,7 +113,8 @@ def generate_launch_description():
                 executable="simple_controller.py",
                 parameters=[
                     {"wheel_radius": wheel_radius,
-                    "wheel_separation": wheel_separation}],
+                    "wheel_separation": wheel_separation,
+                    "use_sim_time": use_sim_time}],
                 condition=IfCondition(use_python),
             ),
             Node(
@@ -113,7 +122,8 @@ def generate_launch_description():
                 executable="simple_controller",
                 parameters=[
                     {"wheel_radius": wheel_radius,
-                    "wheel_separation": wheel_separation}],
+                    "wheel_separation": wheel_separation,
+                    "use_sim_time": use_sim_time}],
                 condition=UnlessCondition(use_python),
             ),
         ]
@@ -123,6 +133,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            use_sim_time_arg,
             use_simple_controller_arg,
             use_python_arg,
             wheel_radius_arg,
