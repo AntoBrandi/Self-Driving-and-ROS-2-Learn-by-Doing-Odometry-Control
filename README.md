@@ -102,7 +102,7 @@ You can decide whether to build the real robot or just have fun with the simulat
 
 ### Prerequisites
 You don't need any prior knowledge of ROS 2 nor of Self-Driving, I'll explain all the concepts as they came out and as they are needed to implement new functionalities to our robot.
-A basic knowledge of programming, either using **C++** or **Python** is required as this is not a Programming course and so I'll nmot dwell too much on basic Programming concepts.
+A basic knowledge of programming, either using **C++** or **Python** is required as this is not a Programming course and so I'll not dwell too much on basic Programming concepts.
 
 To prepare your PC you need:
 * Install Ubuntu 22.04 on PC or in Virtual Machine
