@@ -42,11 +42,33 @@ Furthermore, all the laboratory classes in which we are going to develop the act
 
 <!-- OTHER COURSES -->
 ## Other Courses
+### Self Driving and ROS 2 - Learn by Doing! Plan & Navigation
+Have you ever developed a path-planning algorithm for your robot?
+Do you want to know more about Motion Planning algorithms and how to use them to autonomously move your robot while avoiding obstacles using a Costmap of the environment?
+
+Then this course will teach you exactly that, with many more topics:
+* Path Planning
+* Motion Planning
+* Decision Making
+* Behavior Trees
+* Obstacle Avoidance
+* Costmaps
+* Nav2
+
+Enroll on the following platforms:
+<br />
+<p align="center">
+   <img src="images/cover_plan_navigation.png" alt="Cover Plan & Navigation">
+</p>
+
+* [Udemy](https://www.udemy.com/course/self-driving-and-ros-2-learn-by-doing-plan-navigation/?referralCode=1F6AFF9E9A8E7D5D057A)
+
+
 ### Self Driving and ROS 2 - Learn by Doing! Map & Localization
 Have you ever developed a mapping and a localization algorithm for your robot?
 Do you want to know more about SLAM (Simultaneous Localization and Mapping) and how to use it to enable your robot to create a nice and accurate map of the environment using a 2D LiDAR sensor?
 
-Then this course will teach you exaclty that, with many more topics:
+Then this course will teach you exactly that, with many more topics:
 * Robot Localization
 * Map Representations
 * Mapping
@@ -71,7 +93,7 @@ If you find this course interesting and you are passionate about robotics in gen
    <img src="images/cover_manipulators.png" alt="Cover Manipulators 2">
 </p>
 
-In this course I'll guide you through the creation of a real robotic arm that you can control with your voice using the Amazon Alexa voice assistant.
+In this course, I'll guide you through the creation of a real robotic arm that you can control with your voice using the Amazon Alexa voice assistant.
 Some of the concepts that are covered in this course are
 
 * Gazebo Simulation
@@ -88,7 +110,7 @@ Looks funny? Check it out on the following platforms:
 
 Do you want to master Self-Driving or Manipulation using **ROS**, the first version of the Robot Operating System? 
 
-Despite many companies already started switching to ROS 2, knowing both ROS 1 and ROS 2 will position you at the forefront of this demand, making you an attractive candidate for a wide range of roles.
+Despite many companies already starting to switch to ROS 2, knowing both ROS 1 and ROS 2 will position you at the forefront of this demand, making you an attractive candidate for a wide range of roles.
 
 Here you can access the same courses, where will be created the same robots, implementing the same functionalities in ROS 1
 
@@ -105,7 +127,7 @@ You don't need any prior knowledge of ROS 2 nor of Self-Driving, I'll explain al
 A basic knowledge of programming, either using **C++** or **Python** is required as this is not a Programming course and so I'll not dwell too much on basic Programming concepts.
 
 To prepare your PC you need:
-* Install Ubuntu 22.04 on PC or in Virtual Machine
+* Install Ubuntu 22.04 on PC or in a Virtual Machine
 Download the ISO [Ubuntu 22.04](https://ubuntu.com/download/) for your PC
 * Install [ROS Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) or [ROS Iron](https://docs.ros.org/en/iron/Installation/Ubuntu-Install-Debians.html) on your Ubuntu 22.04
 * Install ROS 2 missing libraries. Some libraries that are used in this project are not in the standard ROS 2 package. Install them with:
@@ -149,7 +171,7 @@ ros2 launch bumperbot_description gazebo.launch.py
 
 <!-- CONTRIBUTING -->
 ## Contributing
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
