@@ -12,6 +12,7 @@
 
 * [About the Course](#about-the-course)
 * [Other Courses](#other-courses)
+   * [Self Driving and ROS 2 - Learn by Doing! Plan & Navigation](#plan-navigation)
    * [Self Driving and ROS 2 - Learn by Doing! Map & Localization](#map-localization)
    * [Robotics and ROS 2 - Learn by Doing! Manipulators](#manipulators)
 * [Getting Started](#getting-started)
